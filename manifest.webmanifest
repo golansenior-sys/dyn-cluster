@@ -1,0 +1,26 @@
+{
+  "name": "DYN Cluster Finder — ProQuant",
+  "short_name": "DYN Clusters",
+  "description": "Szukaj klastrów cenowych FIB między rodzinami alertów ProQuant, także BUY/SELL i CONTRARIAN.",
+  "id": "./",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0c111b",
+  "theme_color": "#0c111b",
+  "lang": "pl",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+DYN CLUSTER FINDER — PWA dla iPhone / Mac
+
+ZAWARTOŚĆ: index.html, manifest.webmanifest, service-worker.js, icon-*.png.
+
+Aby zainstalować jako aplikację na iPhone, opublikuj WSZYSTKIE pliki razem w katalogu strony HTTPS (np. GitHub Pages / Netlify).
+1. Otwórz adres HTTPS aplikacji w Safari na iPhonie.
+2. Kliknij Udostępnij → Do ekranu początkowego / Dodaj do ekranu początkowego.
+3. Włącz „Otwórz jako aplikację”, jeśli widoczne, i potwierdź.
+4. Otwórz ikonę DYN Clusters. Po pierwszym udanym uruchomieniu strona powinna działać offline.
+
+Uwaga: sam plik ZIP ani lokalnie otwarty plik HTML nie wystarczy do zainstalowania pełnego PWA.
+Dane przechowywane są w localStorage na tym urządzeniu (w danym kontekście Safari/PWA); czyść pamięć urządzenia ostrożnie i korzystaj z przycisku „Zapisz kopię danych”, a potem w razie potrzeby „Wczytaj kopię”.
+Dane projekcji nie są przesyłane na serwer; serwer służy wyłącznie do dostarczenia plików aplikacji.
+
+Uwaga: to narzędzie badawcze. Klastry nie stanowią automatycznie sygnału transakcyjnego.

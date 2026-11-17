@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0c111b">
+<title>DYN Cluster Finder — ProQuant</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="DYN Clusters">
+<meta name="application-name" content="DYN Clusters">
+<meta name="description" content="Lokalna analiza klastrów cenowych FIB z alertów ProQuant.">
+
+<style>
+:root{color-scheme:dark;--bg:#0c111b;--layer:#141c2b;--layer2:#1b2636;--line:#29384c;--text:#eef4fb;--muted:#99acc1;--aqua:#7ee0d1;--blue:#8abaff;--gold:#edca85;--pink:#eaa8c0}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse 70% 40% at 70% -10%,#19364c 0%,transparent 80%),var(--bg);color:var(--text);font:14px/1.48 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+main{max-width:1170px;margin:0 auto;padding:26px 18px 65px}header{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin:6px 0 23px}.eyebrow{font-size:11px;letter-spacing:.16em;font-weight:700;color:var(--aqua)}h1{font-size:clamp(28px,4vw,39px);line-height:1.13;margin:8px 0 8px;letter-spacing:-.045em}h2{font-size:15px;margin:0 0 12px}p{margin:0}.lead{color:var(--muted);max-width:730px;font-size:14px}.chip{white-space:nowrap;border:1px solid #316056;color:var(--aqua);border-radius:22px;padding:7px 10px;font-size:11px;font-weight:700}.layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(290px,.85fr);gap:15px}.panel{background:linear-gradient(140deg,var(--layer),#101824);border:1px solid var(--line);border-radius:17px;padding:19px;min-width:0;box-shadow:0 12px 35px #0002}.sub{color:var(--muted);font-size:12px;margin:0 0 13px}textarea{width:100%;min-height:405px;border:1px solid #39495e;border-radius:11px;padding:14px;background:#0a1220;color:#dbe8f7;resize:vertical;outline:0;font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}textarea:focus,input:focus,select:focus{border-color:var(--aqua)}label{font-size:12px;color:#c8d6e4;font-weight:650;display:block;margin-bottom:6px}input,select{width:100%;background:#0b1422;color:var(--text);border:1px solid #39495e;border-radius:9px;min-height:40px;padding:8px 10px;font:inherit}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.toggle{display:flex;align-items:center;gap:9px;margin-top:16px;color:var(--muted);font-size:12px;cursor:pointer}.toggle input{width:17px;height:17px;min-height:0;accent-color:#6bd9ca;flex:none}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}button{font:inherit;font-weight:700;border-radius:10px;padding:10px 13px;border:1px solid #496078;color:var(--text);background:#223044;cursor:pointer}button:hover{filter:brightness(1.15)}button.primary{background:var(--aqua);color:#062222;border-color:var(--aqua)}button:disabled{opacity:.45;cursor:not-allowed}.hint{font-size:11px;color:var(--muted);line-height:1.6;margin-top:14px}.hint code{color:var(--aqua);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;word-break:break-word}.statrow{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:18px 0}.stat{border:1px solid var(--line);background:#111c2c;border-radius:12px;padding:12px}.stat b{display:block;font-size:22px;line-height:1.1;font-variant-numeric:tabular-nums}.stat small{font-size:11px;color:var(--muted)}.results{margin-top:20px}.resultsHead{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.resultsHead h2{margin:0;font-size:19px}.resultsHead .actions{margin:0}.cluster{background:linear-gradient(145deg,#172335,#111b29);border:1px solid #304359;border-radius:15px;margin-bottom:12px;padding:17px}.clusterTop{display:flex;gap:12px;justify-content:space-between;align-items:flex-start}.clusterno{font-size:11px;color:var(--aqua);letter-spacing:.09em;font-weight:800}.cluster h3{font-size:clamp(18px,3vw,22px);font-variant-numeric:tabular-nums;letter-spacing:-.025em;margin:5px 0 6px}.statline{color:var(--muted);font-size:12px}.metric{font-size:13px;color:var(--gold);white-space:nowrap;font-variant-numeric:tabular-nums;margin-top:21px}.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:13px}.tag{color:#bfd5eb;background:#24364c;border-radius:6px;padding:3px 7px;font-size:11px;font-weight:600}.tag.mix{color:#071b24;background:#a6c9f1}.tag.green{color:#0c2223;background:var(--aqua)}details{margin-top:13px;border-top:1px solid #304359;padding-top:9px}summary{cursor:pointer;color:var(--blue);font-size:12px;font-weight:700}.tableWrap{overflow:auto;margin-top:9px}table{border-collapse:collapse;width:100%;font-size:12px;white-space:nowrap}th,td{padding:8px 8px;text-align:left;border-bottom:1px solid #28364a}th{color:var(--muted);font-size:11px}td.price{font-weight:700;color:var(--aqua);font-variant-numeric:tabular-nums}.empty{border:1px dashed #42576f;border-radius:14px;text-align:center;padding:34px 18px;color:var(--muted)}.summaryNotice{font-size:12px;color:var(--muted);margin-bottom:12px}.warn{color:var(--gold)}.footer{font-size:11px;color:var(--muted);margin-top:19px;border-top:1px solid var(--line);padding-top:15px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}textarea{min-height:335px}.statrow{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){main{padding:18px 12px 50px}header{display:block}.chip{display:inline-block;margin-top:10px}.panel{padding:15px}.cluster{padding:14px}.metric{font-size:12px}.formgrid{gap:10px}}
+</style>
+</head>
+<body><main>
+<header><div><div class="eyebrow">PROQUANT · RESEARCH TOOL</div><h1>DYN Cluster Finder</h1><p class="lead">Wklej gotowe projekcje FIB z różnych alertów. Wykrywaj ciasne klastry cenowe niezależnie od kierunku BUY/SELL, poziomu FIB, DYN czy rodziny zdarzenia.</p></div><span class="chip">● OFFLINE · bez VPS</span></header>
+<div class="layout">
+<section class="panel"><h2>01 / Projekcje</h2><p class="sub">Możesz wklejać wszystkie bloki naraz, z pustymi liniami pomiędzy nimi. Przykłady są już załadowane.</p>
+<textarea id="source" spellcheck="false" aria-label="Wklejone projekcje FIB">FIB DYN ×10 | F0.618 | BUY | PX 64843 | DYN 131.36
+F−0.447: 69 818,86 USD
+F−0.618: 70 406,89 USD
+F−1.000: 71 720,49 USD
+F−1.618: 73 845,63 USD
+F−2.618: 77 284,37 USD
+F−3.618: 80 723,12 USD
+F−4.236: 82 848,26 USD
+
+FIB DYN ×10 | F0.618 | SELL | PX 64843 | DYN 131.36
+F−0.447: 59 867,14 USD
+F−0.618: 59 279,11 USD
+F−1.000: 57 965,51 USD
+F−1.618: 55 840,37 USD
+F−2.618: 52 401,63 USD
+F−3.618: 48 962,88 USD
+F−4.236: 46 837,74 USD
+
+FIB DYN ×10 | F0.618 | BUY | PX 65067 | DYN 164.42
+F−0.447: 71 295,16 USD
+F−0.618: 72 031,18 USD
+F−1.000: 73 675,38 USD
+F−1.618: 76 335,37 USD
+F−2.618: 80 639,55 USD
+F−3.618: 84 943,74 USD
+F−4.236: 87 603,73 USD
+
+FIB DYN ×10 | F0.618 | SELL | PX 65067 | DYN 164.42
+F−0.447: 58 838,84 USD
+F−0.618: 58 102,82 USD
+F−1.000: 56 458,62 USD
+F−1.618: 53 798,63 USD
+F−2.618: 49 494,45 USD
+F−3.618: 45 190,26 USD
+F−4.236: 42 530,27 USD
+
+FIB DYN ×10 | F0.618 | BUY | PX 64964 | DYN 126.93
+F−0.447: 69 772,06 USD
+F−0.618: 70 340,25 USD
+F−1.000: 71 609,55 USD
+F−1.618: 73 663,02 USD
+F−2.618: 76 985,80 USD
+F−3.618: 80 308,57 USD
+F−4.236: 82 362,05 USD
+
+FIB DYN ×10 | F0.618 | SELL | PX 64964 | DYN 126.93
+F−0.447: 60 155,94 USD
+F−0.618: 59 587,75 USD
+F−1.000: 58 318,45 USD
+F−1.618: 56 264,98 USD
+F−2.618: 52 942,20 USD
+F−3.618: 49 619,43 USD
+F−4.236: 47 565,95 USD
+
+FIB DYN ×10 | F0.618 | BUY | PX 64974 | DYN 113.96
+F−0.447: 69 290,76 USD
+F−0.618: 69 800,89 USD
+F−1.000: 70 940,49 USD
+F−1.618: 72 784,14 USD
+F−2.618: 75 767,38 USD
+F−3.618: 78 750,63 USD
+F−4.236: 80 594,28 USD
+
+FIB DYN ×10 | F0.618 | SELL | PX 64974 | DYN 113.96
+F−0.447: 60 657,24 USD
+F−0.618: 60 147,11 USD
+F−1.000: 59 007,51 USD
+F−1.618: 57 163,86 USD
+F−2.618: 54 180,62 USD
+F−3.618: 51 197,37 USD
+F−4.236: 49 353,72 USD</textarea>
+<div class="actions"><button class="primary" id="run">Analizuj klastry</button><button id="sample">Przywróć przykłady</button><button id="clear">Wyczyść</button><button id="backup">Zapisz kopię danych</button><button id="restore">Wczytaj kopię</button><input type="file" id="restoreFile" accept="application/json,.json" hidden></div>
+<p class="hint">Dane i ustawienia są automatycznie zachowywane na tym urządzeniu. Dla bezpieczeństwa regularnie używaj „Zapisz kopię danych” — wyczyszczenie danych witryny może usunąć zapis lokalny.</p>
+<p class="hint">Opcjonalnie dodaj nad zestawem linijkę z metadanymi, np.:<br><code># FAMILY=MORPH | TIME=2026-11-17 10:20 | EVENT=ev001 | MODE=CONTRARIAN</code><br>Zmiana <code>EVENT</code> lub PX/DYN identyfikuje inne zdarzenie. BUY i SELL tego samego zdarzenia liczą się jako <b>jedno źródło</b>.</p>
+</section>
+<section class="panel"><h2>02 / Warunki klastra</h2><p class="sub">Szerokość oznacza maksymalną różnicę między najwyższą a najniższą ceną w klastrze — nie promień ±.</p>
+<div class="formgrid"><div><label for="width">Maks. szerokość, USD</label><input id="width" type="number" value="50" min="0.01" max="100000" step="5"></div><div><label for="events">Min. różnych zdarzeń</label><input id="events" type="number" value="2" min="1" max="1000" step="1"></div><div><label for="projections">Min. projekcji</label><input id="projections" type="number" value="2" min="2" max="1000" step="1"></div><div><label for="families">Min. znanych rodzin</label><select id="families"><option value="0">Bez wymogu</option><option value="2">2 różne rodziny</option><option value="3">3 różne rodziny</option><option value="4">4 różne rodziny</option></select></div></div>
+<label class="toggle"><input id="mixSide" type="checkbox">Wymagaj jednocześnie BUY i SELL</label><label class="toggle"><input id="mixFib" type="checkbox">Wymagaj różnych targetów FIB</label>
+<div class="statrow"><div class="stat"><b id="sHeaders">—</b><small>Zestawy</small></div><div class="stat"><b id="sPoints">—</b><small>Projekcje</small></div><div class="stat"><b id="sEvents">—</b><small>Zdarzenia</small></div><div class="stat"><b id="sClusters">—</b><small>Klastry</small></div></div>
+<p id="notice" class="hint">Obliczenia są lokalne. Nic nie trafia na serwer ani do Telegrama.</p><div class="footer">Ranking to zbieżność matematyczna, <b>nie zweryfikowany sygnał transakcyjny</b>. Aby badać skuteczność, trzeba osobno połączyć klastry z chronologią zdarzeń i późniejszymi cenami rynku.</div>
+</section>
+</div>
+<section class="results" id="resultsArea"><div class="resultsHead"><h2>03 / Znalezione klastry</h2><div class="actions"><button id="copy">Kopiuj wyniki</button><button id="csv">Eksportuj CSV</button></div></div><p class="summaryNotice" id="summaryNotice"></p><div id="results"></div></section>
+</main>
+<script>
+'use strict';
+const $ = x => document.getElementById(x);
+const original = $('source').value;
+const fmt = n => new Intl.NumberFormat('pl-PL',{minimumFractionDigits:2,maximumFractionDigits:2}).format(n);
+const short = n => new Intl.NumberFormat('pl-PL',{maximumFractionDigits:2}).format(n);
+const esc = s => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function parseNum(s){
+  let z=String(s||'').replace(/[\s\u00a0\u202f]/g,'').replace(/[^\d,.+\-]/g,'');
+  if(z.includes(',')&&z.includes('.')){const last=Math.max(z.lastIndexOf(','),z.lastIndexOf('.'));const dec=z[last];z=z.slice(0,last).replace(/[.,]/g,'')+'.'+z.slice(last+1).replace(/[.,]/g,'');}
+  else if(z.includes(','))z=z.replace(',','.');
+  return Number(z);
+}
+function parseInput(s){
+  const points=[], seen=new Set();let meta={},current=null,blocks=0,malformed=0;
+  const lines=s.replace(/\r/g,'').split('\n');
+  for(const raw of lines){
+    const line=raw.trim(); if(!line)continue;
+    if(/^#\s*(FAMILY|RODZINA|EVENT|TIME|MODE)\s*=/i.test(line)){
+      meta={};for(const part of line.replace(/^#\s*/,'').split('|')){const m=part.trim().match(/^([A-Z_]+)\s*=\s*(.+)$/i);if(m)meta[m[1].toUpperCase()]=m[2].trim();}
+      continue;
+    }
+    if(/^FIB\s+DYN\b/i.test(line) && line.includes('|')){
+      const parts=line.split('|').map(x=>x.trim());
+      const sidePart=parts.find(x=>/^(?:(?:NORMAL|CONTRARIAN|CONTRA)\s+)?(?:BUY|SELL)(?:\s+(?:NORMAL|CONTRARIAN|CONTRA))?$/i.test(x))||'';
+      const side=(sidePart.match(/\b(BUY|SELL)\b/i)||[])[1];
+      const pxPart=parts.find(x=>/^PX\s+/i.test(x))||'';
+      const dynPart=parts.find(x=>/^DYN\s+/i.test(x))||'';
+      const fPart=parts.find(x=>/^F\s*\d/i.test(x))||'';
+      const px=parseNum(pxPart.replace(/^PX\s+/i,''));
+      const dyn=parseNum(dynPart.replace(/^DYN\s+/i,''));
+      const anchor=(fPart.match(/^F\s*([\d.,]+)/i)||[])[1]||'?';
+      const multiplier=(parts[0].match(/[×x*]\s*(\d+(?:[.,]\d+)?)/i)||[])[1]||'?';
+      if(!side||!Number.isFinite(px)||px<=0||!Number.isFinite(dyn)||dyn<=0){current=null;malformed++;continue;}
+      blocks++;
+      const family=meta.FAMILY||meta.RODZINA||'';
+      const time=meta.TIME||'';
+      const mode=meta.MODE||(sidePart.match(/CONTRA(?:RIAN)?/i)?'CONTRARIAN':'NORMAL');
+      const eventId=meta.EVENT||[family,time,px.toFixed(6),dyn.toFixed(6)].join('|');
+      current={px,dyn,side,family,time,mode,anchor,multiplier,eventId,block:blocks};
+      continue;
+    }
+    const m=line.match(/^F\s*([\-−+]?\d+(?:[.,]\d+)?)\s*:\s*([\d\s\u00a0\u202f.,]+)(?:\s*USD)?\s*$/i);
+    if(current&&m){
+      const fib=m[1].replace('−','-').replace(',','.');const price=parseNum(m[2]);
+      if(!Number.isFinite(price)||price<=0){malformed++;continue;}
+      const key=[current.eventId,current.side,current.anchor,current.multiplier,fib,price.toFixed(4)].join('|');
+      if(!seen.has(key)){seen.add(key);points.push({...current,fib,price,id:points.length});}
+    }
+  }
+  return {points,blocks,malformed,events:new Set(points.map(p=>p.eventId)).size,families:new Set(points.map(p=>p.family).filter(Boolean)).size};
+}
+function buildCluster(pts){
+  const events=new Set(pts.map(p=>p.eventId));const sides=new Set(pts.map(p=>p.side));
+  const fibs=new Set(pts.map(p=>p.fib));const families=new Set(pts.map(p=>p.family).filter(Boolean));
+  const times=pts.map(p=>Date.parse((p.time||'').replace(' ','T'))).filter(Number.isFinite);
+  return {pts,low:pts[0].price,high:pts[pts.length-1].price,events:events.size,sides,fibs,families,spread:pts[pts.length-1].price-pts[0].price,timeSpan:times.length>1?(Math.max(...times)-Math.min(...times))/3600000:null};
+}
+function findClusters(points,opts){
+  const a=points.slice().sort((x,y)=>x.price-y.price),candidates=[];
+  let right=0;
+  for(let left=0;left<a.length;left++){
+    if(right<left)right=left;
+    while(right<a.length&&a[right].price-a[left].price<=opts.width+1e-8)right++;
+    const pts=a.slice(left,right);
+    if(pts.length<opts.minPoints)continue;
+    const c=buildCluster(pts);
+    if(c.events<opts.minEvents||c.families.size<opts.minFamilies)continue;
+    if(opts.mixSide&&c.sides.size<2)continue;
+    if(opts.mixFib&&c.fibs.size<2)continue;
+    candidates.push(c);
+  }
+  candidates.sort((a,b)=>b.events-a.events||b.pts.length-a.pts.length||a.spread-b.spread||a.low-b.low);
+  const keep=[];
+  for(const c of candidates){
+    const ids=new Set(c.pts.map(x=>x.id));
+    const duplicate=keep.some(k=>{
+      let shared=0;for(const p of k.pts)if(ids.has(p.id))shared++;
+      return shared/Math.min(k.pts.length,c.pts.length)>=.75;
+    });
+    if(!duplicate)keep.push(c);
+    if(keep.length>=150)break;
+  }
+  return keep;
+}
+let last={points:[],clusters:[],stats:{}};
+function analyze(){
+  const parsed=parseInput($('source').value);
+  const opts={width:Math.max(.01,Number($('width').value)||50),minEvents:Math.max(1,Number($('events').value)||2),minPoints:Math.max(2,Number($('projections').value)||2),minFamilies:Number($('families').value)||0,mixSide:$('mixSide').checked,mixFib:$('mixFib').checked};
+  const clusters=findClusters(parsed.points,opts);last={points:parsed.points,clusters,stats:parsed};
+  $('sHeaders').textContent=short(parsed.blocks);$('sPoints').textContent=short(parsed.points.length);$('sEvents').textContent=short(parsed.events);$('sClusters').textContent=short(clusters.length);
+  const missing=parsed.points.length&&parsed.families===0;
+  $('notice').innerHTML=(missing?'<span class="warn">Brak informacji o rodzinach i godzinach.</span> Dodaj linie # FAMILY / TIME / EVENT, aby badać niezależność rodzin i chronologię.':'Rodziny z metadanych: '+parsed.families+'.')+(parsed.malformed?' Pominięte niepoprawne wiersze/nagłówki: '+parsed.malformed+'.':'')+' Wszystko liczone lokalnie.';
+  $('summaryNotice').textContent=parsed.points.length?`Znaleziono ${clusters.length} odrębnych skupisk (max. szerokość ${short(opts.width)} USD). Ranking: liczba unikalnych zdarzeń → liczba projekcji → ciasność klastra. Nakładające się warianty tej samej strefy są scalane na widoku.`:'Wklej bloki projekcji w formacie jak w przykładzie.';
+  if(!clusters.length){$('results').innerHTML=`<div class="empty">${parsed.points.length?'Brak klastrów przy ustawionych progach. Zwiększ szerokość lub poluzuj filtry.':'Nie rozpoznano projekcji FIB. Sprawdź format nagłówków i linii F…: cena USD.'}</div>`;return;}
+  $('results').innerHTML=clusters.map((c,i)=>{
+    const buy=c.pts.filter(p=>p.side==='BUY').length, sell=c.pts.length-buy;
+    const tags=[`${c.events} zdarzenia`,`${c.pts.length} projekcje`,`${c.fibs.size} poziomy FIB`];
+    const known=c.families.size;
+    const tagHtml=tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')+(c.sides.size>1?'<span class="tag mix">BUY + SELL</span>':'')+(known>1?`<span class="tag green">${known} rodziny</span>`:'')+(c.timeSpan!==null?`<span class="tag">${fmt(c.timeSpan)} h odstępu</span>`:'');
+    const rows=c.pts.map(p=>`<tr><td class="price">${fmt(p.price)}</td><td>${esc(p.side)} F${esc(p.fib)}</td><td>${fmt(p.px)}</td><td>${fmt(p.dyn)}</td><td>${esc(p.family||'—')}</td><td>${esc(p.mode||'—')}</td><td>${esc(p.time||'—')}</td></tr>`).join('');
+    return `<article class="cluster"><div class="clusterTop"><div><div class="clusterno">C${c.events} · KLASTER ${String(i+1).padStart(2,'0')}</div><h3>${fmt(c.low)} – ${fmt(c.high)} USD</h3><div class="statline">Środek: ${fmt((c.low+c.high)/2)} · BUY: ${buy} · SELL: ${sell}</div></div><div class="metric">↔ ${fmt(c.spread)} USD</div></div><div class="tags">${tagHtml}</div><details ${i===0?'open':''}><summary>Pokaż wszystkie projekcje (${c.pts.length})</summary><div class="tableWrap"><table><thead><tr><th>Cena USD</th><th>Projekcja</th><th>PX</th><th>DYN</th><th>Rodzina</th><th>Tryb</th><th>Czas</th></tr></thead><tbody>${rows}</tbody></table></div></details></article>`;
+  }).join('');
+}
+function makeText(){return last.clusters.map((c,i)=>[`KLASTER ${i+1} · C${c.events} · ${fmt(c.low)}–${fmt(c.high)} USD · width ${fmt(c.spread)} · ${c.pts.length} projekcji`,...c.pts.map(p=>`  ${fmt(p.price)} | ${p.side} F${p.fib} | PX ${fmt(p.px)} | DYN ${fmt(p.dyn)} | ${p.family||'rodzina nieznana'} | ${p.mode||''} | ${p.time||''}`)].join('\n')).join('\n\n');}
+function copyText(){const text=makeText();if(!text)return; if(navigator.clipboard?.writeText){navigator.clipboard.writeText(text).then(()=>{$('copy').textContent='Skopiowano ✓';setTimeout(()=>{$('copy').textContent='Kopiuj wyniki'},1800)}).catch(()=>fallbackCopy(text));}else fallbackCopy(text);}
+function fallbackCopy(t){const el=document.createElement('textarea');el.value=t;document.body.appendChild(el);el.select();try{document.execCommand('copy');$('copy').textContent='Skopiowano ✓'}catch(e){window.prompt('Skopiuj wyniki:',t)}el.remove();setTimeout(()=>{$('copy').textContent='Kopiuj wyniki'},1800);}
+function csvEscape(s){const str=String(s??'');return '"'+str.replace(/"/g,'""')+'"'}
+function downloadCSV(){if(!last.clusters.length)return;const rows=[['cluster','unique_events','min_price','max_price','width_usd','price','fib','side','px','dyn','family','mode','time','event_id']];last.clusters.forEach((c,i)=>c.pts.forEach(p=>rows.push([i+1,c.events,c.low,c.high,c.spread,p.price,p.fib,p.side,p.px,p.dyn,p.family,p.mode,p.time,p.eventId])));const csv='\ufeff'+rows.map(r=>r.map(csvEscape).join(';')).join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='dyn_clusters.csv';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);}
+$('run').addEventListener('click',analyze);$('copy').addEventListener('click',copyText);$('csv').addEventListener('click',downloadCSV);
+$('sample').addEventListener('click',()=>{$('source').value=original;analyze()});$('clear').addEventListener('click',()=>{$('source').value='';analyze()});
+for(const id of ['width','events','projections','families','mixSide','mixFib'])$(id).addEventListener('change',analyze);
+let debounce;$('source').addEventListener('input',()=>{clearTimeout(debounce);debounce=setTimeout(analyze,380)});
+analyze();
+</script>
+<script>
+(function(){
+'use strict';
+const key='pq_dyn_cluster_pwa_v1';
+const ids=['source','width','events','projections','families','mixSide','mixFib'];
+const pick=()=>Object.fromEntries(ids.map(id=>{const e=document.getElementById(id);return [id,e.type==='checkbox'?e.checked:e.value]}));
+function apply(o){for(const id of ids){if(!(id in o))continue;const e=document.getElementById(id);if(e.type==='checkbox')e.checked=!!o[id];else e.value=String(o[id]);}analyze();}
+function save(){try{localStorage.setItem(key,JSON.stringify({saved:new Date().toISOString(),values:pick()}));}catch(e){console.warn('Cannot persist locally',e);}}
+try{const raw=localStorage.getItem(key);if(raw){const obj=JSON.parse(raw);if(obj&&obj.values)apply(obj.values);}}catch(e){console.warn('Restore failed',e);}
+const source=document.getElementById('source');
+source.addEventListener('input',save);
+for(const id of ids.slice(1))document.getElementById(id).addEventListener('change',save);
+['sample','clear'].forEach(id=>document.getElementById(id).addEventListener('click',()=>setTimeout(save,0)));
+document.getElementById('backup').addEventListener('click',()=>{
+ const data=JSON.stringify({app:'DYN Cluster Finder',version:1,saved:new Date().toISOString(),values:pick()},null,2);
+ const url=URL.createObjectURL(new Blob([data],{type:'application/json'}));
+ const a=document.createElement('a');a.href=url;a.download='dyn_cluster_backup.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),3000);
+});
+const upload=document.getElementById('restoreFile');
+document.getElementById('restore').addEventListener('click',()=>upload.click());
+upload.addEventListener('change',async()=>{
+ const file=upload.files&&upload.files[0];if(!file)return;
+ try{const obj=JSON.parse(await file.text());if(!obj||obj.app!=='DYN Cluster Finder'||!obj.values||typeof obj.values.source!=='string')throw Error('To nie jest poprawna kopia DYN Cluster Finder.');
+ apply(obj.values);save();alert('Wczytano kopię danych.');}catch(e){alert('Nie udało się wczytać kopii: '+e.message);}finally{upload.value='';}
+});
+if('serviceWorker' in navigator && (location.protocol==='https:'||location.hostname==='localhost')){
+ window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(err=>console.warn('Offline cache unavailable',err)));
+}
+})();
+</script>
+</body>
+</html>
